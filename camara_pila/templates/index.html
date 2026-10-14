@@ -1,0 +1,115 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div
+    id="photoApp"
+    data-list-url="{{ url_for('main.list_photos') }}"
+    data-capture-url="{{ url_for('main.capture_photo') }}"
+    data-pop-url="{{ url_for('main.pop_photo') }}">
+
+    <h1 class="h3">Captura tus fotografías</h1>
+
+    <p class="text-secondary">
+        Activa la cámara y captura una foto para añadirla a la cima.
+        La última foto en entrar será la primera en salir.
+    </p>
+
+    <div
+        id="status"
+        class="alert alert-info"
+        role="status"
+        aria-live="polite">
+        La cámara está apagada.
+    </div>
+
+    <div class="row g-4">
+        <section class="col-12 col-lg-6" aria-labelledby="cameraTitle">
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <h2 id="cameraTitle" class="h5">Cámara</h2>
+
+                    <video
+                        id="camera"
+                        class="w-100 rounded bg-dark"
+                        autoplay
+                        muted
+                        playsinline
+                        aria-label="Vista previa de la cámara">
+                    </video>
+
+                    <canvas id="canvas" hidden></canvas>
+
+                    <div class="d-flex flex-wrap gap-2 mt-3">
+                        <button
+                            id="startCamera"
+                            type="button"
+                            class="btn btn-outline-primary">
+                            Activar cámara
+                        </button>
+
+                        <button
+                            id="capturePhoto"
+                            type="button"
+                            class="btn btn-primary"
+                            disabled>
+                            Capturar y apilar
+                        </button>
+
+                        <button
+                            id="stopCamera"
+                            type="button"
+                            class="btn btn-outline-secondary"
+                            disabled>
+                            Apagar cámara
+                        </button>
+                    </div>
+
+                    <p class="small text-secondary mt-3 mb-0">
+                        No se solicita acceso al micrófono.
+                        Las fotos se guardan solo cuando pulsas Capturar.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <section class="col-12 col-lg-6" aria-labelledby="stackTitle">
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <h2 id="stackTitle" class="h5 mb-0">
+                            Pila
+                            <span id="count" class="badge text-bg-primary">0</span>
+                        </h2>
+
+                        <button
+                            id="popPhoto"
+                            type="button"
+                            class="btn btn-outline-danger"
+                            disabled>
+                            Desapilar última
+                        </button>
+                    </div>
+
+                    <p class="small text-secondary mt-3">
+                        Capacidad: 30 fotos. La cima aparece primero.
+                        Desapilar elimina esa foto de la memoria.
+                    </p>
+
+                    <p id="emptyStack" class="text-secondary">
+                        Todavía no hay fotografías.
+                    </p>
+
+                    <div id="gallery" class="row g-3"></div>
+                </div>
+            </div>
+        </section>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script
+    src="{{ url_for('static', filename='js/main.js') }}"
+    defer>
+</script>
+{% endblock %}
